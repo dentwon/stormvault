@@ -334,12 +334,12 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-slate-800 to-slate-900 py-20">
+      <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 py-20">
         <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-100 mb-4">
             Ready to Find More Jobs?
           </h2>
-          <p className="text-slate-400 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">
             Join the beta program today and get 3 months free. No credit card required.
           </p>
           <Link href="/signup" className="btn-accent inline-block">
