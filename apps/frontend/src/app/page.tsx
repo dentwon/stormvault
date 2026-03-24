@@ -69,15 +69,157 @@ export default function HomePage() {
               <div className="w-3 h-3 bg-green-500/80 rounded-full"></div>
               <div className="flex-1 text-center text-sm text-slate-500">app.stormvault.com</div>
             </div>
-            <div className="bg-gradient-to-br from-slate-800 to-slate-900 h-80 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-xl bg-slate-700/50 flex items-center justify-center">
-                  <svg className="w-8 h-8 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                  </svg>
+            
+            {/* App Preview - Map Dashboard Mockup */}
+            <div className="relative h-96 bg-slate-900 overflow-hidden">
+              {/* Simulated Map Grid Pattern */}
+              <div className="absolute inset-0 opacity-20" style={{
+                backgroundImage: `
+                  linear-gradient(rgba(71, 85, 105, 0.3) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(71, 85, 105, 0.3) 1px, transparent 1px)
+                `,
+                backgroundSize: '40px 40px'
+              }}></div>
+              
+              {/* Storm Path Overlay */}
+              <div className="absolute top-4 left-1/4 right-1/4 h-24 rounded-full opacity-30 blur-2xl" style={{
+                background: 'linear-gradient(90deg, #3b82f6, #8b5cf6, #3b82f6)',
+                transform: 'rotate(-15deg)'
+              }}></div>
+              
+              {/* Storm Path Indicator */}
+              <div className="absolute top-8 left-1/3 w-32 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-60"></div>
+              <div className="absolute top-12 left-1/3 w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-40"></div>
+              
+              {/* Red House Markers */}
+              <div className="absolute top-20 left-1/4 w-6 h-6 bg-red-500 rounded-full border-2 border-white/30 shadow-lg flex items-center justify-center">
+                <div className="w-2 h-2 bg-white/80 rounded-full"></div>
+              </div>
+              <div className="absolute top-32 left-1/3 w-6 h-6 bg-red-500 rounded-full border-2 border-white/30 shadow-lg flex items-center justify-center">
+                <div className="w-2 h-2 bg-white/80 rounded-full"></div>
+              </div>
+              <div className="absolute top-24 right-1/3 w-6 h-6 bg-red-500 rounded-full border-2 border-white/30 shadow-lg flex items-center justify-center">
+                <div className="w-2 h-2 bg-white/80 rounded-full"></div>
+              </div>
+              <div className="absolute top-40 right-1/4 w-6 h-6 bg-red-500 rounded-full border-2 border-white/30 shadow-lg flex items-center justify-center">
+                <div className="w-2 h-2 bg-white/80 rounded-full"></div>
+              </div>
+              <div className="absolute top-48 left-2/5 w-6 h-6 bg-red-500 rounded-full border-2 border-white/30 shadow-lg flex items-center justify-center">
+                <div className="w-2 h-2 bg-white/80 rounded-full"></div>
+              </div>
+              <div className="absolute top-36 left-1/2 w-6 h-6 bg-red-500 rounded-full border-2 border-white/30 shadow-lg flex items-center justify-center">
+                <div className="w-2 h-2 bg-white/80 rounded-full"></div>
+              </div>
+              
+              {/* Blue (analyzed) markers */}
+              <div className="absolute top-28 right-1/2 w-6 h-6 bg-blue-500/70 rounded-full border-2 border-white/20 shadow-lg"></div>
+              <div className="absolute top-52 left-1/4 w-6 h-6 bg-blue-500/70 rounded-full border-2 border-white/20 shadow-lg"></div>
+              
+              {/* Top Search/Filter Bar */}
+              <div className="absolute top-4 left-4 right-4">
+                <div className="bg-slate-800/95 backdrop-blur-sm rounded-lg border border-slate-700/50 px-4 py-2 flex items-center gap-4 shadow-lg">
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 bg-gradient-to-br from-primary-500 to-primary-600 rounded flex items-center justify-center">
+                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                      </svg>
+                    </div>
+                    <span className="text-white font-medium text-sm">StormVault</span>
+                  </div>
+                  <div className="flex-1 flex items-center gap-2 bg-slate-700/50 rounded-md px-3 py-1.5">
+                    <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span className="text-slate-400 text-sm">Search properties, addresses, or neighborhoods...</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-slate-400 bg-slate-700/50 px-2 py-1 rounded">Storm: Mar 18-22</span>
+                    <span className="text-xs text-slate-400 bg-red-500/20 px-2 py-1 rounded border border-red-500/30">47 New Leads</span>
+                  </div>
                 </div>
-                <p className="text-slate-400 font-medium">Interactive Map Dashboard</p>
-                <p className="text-slate-500 text-sm mt-1">Storm overlays + Property data + Lead management</p>
+              </div>
+              
+              {/* Left Sidebar - Property Card */}
+              <div className="absolute top-16 left-4 w-64">
+                <div className="bg-slate-800/95 backdrop-blur-sm rounded-lg border border-slate-700/50 shadow-xl overflow-hidden">
+                  <div className="bg-slate-700/50 px-3 py-2 border-b border-slate-700/50">
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-400 text-xs">Property Details</span>
+                      <span className="text-xs text-red-400 bg-red-500/20 px-2 py-0.5 rounded">Hot Lead</span>
+                    </div>
+                  </div>
+                  <div className="p-3 space-y-2">
+                    <div className="text-white font-medium text-sm">1847 Oak Street</div>
+                    <div className="text-slate-400 text-xs">Denver, CO 80220</div>
+                    <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-700/50">
+                      <div>
+                        <div className="text-slate-500 text-xs">Roof Age</div>
+                        <div className="text-white text-sm font-medium">18 years</div>
+                      </div>
+                      <div>
+                        <div className="text-slate-500 text-xs">Est. Cost</div>
+                        <div className="text-accent-400 text-sm font-medium">$8,200</div>
+                      </div>
+                      <div>
+                        <div className="text-slate-500 text-xs">Owner</div>
+                        <div className="text-white text-xs">M. Thompson</div>
+                      </div>
+                      <div>
+                        <div className="text-slate-500 text-xs">Storm Date</div>
+                        <div className="text-red-400 text-xs">Mar 20, 2026</div>
+                      </div>
+                    </div>
+                    <button className="w-full mt-2 bg-primary-500/20 text-primary-400 text-xs py-1.5 rounded border border-primary-500/30 hover:bg-primary-500/30 transition-colors">
+                      View Full Profile
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Legend */}
+              <div className="absolute bottom-4 right-4">
+                <div className="bg-slate-800/95 backdrop-blur-sm rounded-lg border border-slate-700/50 px-3 py-2 shadow-lg">
+                  <div className="text-slate-400 text-xs mb-2">Legend</div>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      <span className="text-slate-300 text-xs">New Roof</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-3 h-3 bg-blue-500/70 rounded-full"></div>
+                      <span className="text-slate-300 text-xs">Analyzed</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-8 h-1 rounded-full bg-gradient-to-r from-blue-500 to-purple-500"></div>
+                      <span className="text-slate-300 text-xs">Storm Path</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Bottom Stats Bar */}
+              <div className="absolute bottom-4 left-4 right-64">
+                <div className="bg-slate-800/95 backdrop-blur-sm rounded-lg border border-slate-700/50 px-4 py-2 shadow-lg">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-6">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                        <span className="text-white text-xs">47 New in Area</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-accent-500 rounded-full"></div>
+                        <span className="text-white text-xs">12 Priority</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <span className="text-white text-xs">203 Analyzed</span>
+                      </div>
+                    </div>
+                    <div className="text-slate-400 text-xs">
+                      Last updated: 2 min ago
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
