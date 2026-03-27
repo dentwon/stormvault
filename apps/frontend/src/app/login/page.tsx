@@ -21,7 +21,7 @@ export default function LoginPage() {
 
     try {
       const response = await authApi.login({ email, password });
-      setAuth(response.user, response.access_token);
+      setAuth(response.user, response.accessToken, response.refreshToken);
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Invalid email or password');
@@ -45,7 +45,7 @@ export default function LoginPage() {
 
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Sign in to your account</h2>
-          
+
           {error && (
             <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
               {error}
@@ -104,7 +104,7 @@ export default function LoginPage() {
 
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link href="/signup" className="text-primary hover:text-primary-600 font-medium">
                 Start free trial
               </Link>

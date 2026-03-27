@@ -14,7 +14,8 @@ export interface RegisterDto {
 }
 
 export interface AuthResponse {
-  access_token: string;
+  accessToken: string;
+  refreshToken: string;
   user: {
     id: string;
     email: string;
@@ -36,8 +37,17 @@ export const authApi = {
     return response.data;
   },
 
+  refresh: async (refreshToken: string): Promise<AuthResponse> => {
+    const response = await api.post('/auth/refresh', { refreshToken });
+    return response.data;
+  },
+
+  logout: async (): Promise<void> => {
+    await api.post('/auth/logout');
+  },
+
   getProfile: async () => {
-    const response = await api.get('/users/me');
+    const response = await api.get('/auth/me');
     return response.data;
   },
 };

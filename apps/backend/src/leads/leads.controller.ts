@@ -1,6 +1,9 @@
 import { Controller, Get, Post, Patch, Delete, Body, Param, Query, UseGuards, Request } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { LeadsService } from './leads.service';
+import { LeadScoringService } from './lead-scoring.service';
+import { LeadGeneratorService } from './lead-generator.service';
+import { CanvassingService } from './canvassing.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateLeadDto, UpdateLeadDto } from './dto';
 
@@ -9,7 +12,12 @@ import { CreateLeadDto, UpdateLeadDto } from './dto';
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class LeadsController {
-  constructor(private readonly leadsService: LeadsService) {}
+  constructor(
+    private readonly leadsService: LeadsService,
+    private readonly scoringService: LeadScoringService,
+    private readonly generatorService: LeadGeneratorService,
+    private readonly canvassingService: CanvassingService,
+  ) {}
 
   @Get()
   @ApiOperation({ summary: 'Get all leads for organization' })
@@ -21,6 +29,54 @@ export class LeadsController {
   @ApiOperation({ summary: 'Get lead statistics' })
   getStats(@Request() req: any) {
     return this.leadsService.getStats(req.user.orgId);
+  }
+
+  @Get('canvassing')
+  @ApiOperation({ summary: 'Generate canvassing list for door-knocking' })
+  getCanvassingList(
+    @Request() req: any,
+    @Query('stormId') stormId?: string,
+    @Query('lat') lat?: string,
+    @Query('lon') lon?: string,
+    @Query('radius') radius?: string,
+    @Query('limit') limit?: string,
+    @Query('minScore') minScore?: string,
+    @Query('status') status?: string,
+  ) {
+    return this.canvassingService.generateList({
+      orgId: req.user.orgId,
+      stormId,
+      lat: lat ? parseFloat(lat) : undefined,
+      lon: lon ? parseFloat(lon) : undefined,
+      radiusKm: radius ? parseFloat(radius) : 15,
+      limit: limit ? parseInt(limit) : 50,
+      minScore: minScore ? parseInt(minScore) : 0,
+      status,
+    });
+  }
+
+  @Post('score-all')
+  @ApiOperation({ summary: 'Re-score all leads for organization' })
+  scoreAll(@Request() req: any) {
+    return this.scoringService.scoreAllLeads(req.user.orgId);
+  }
+
+  @Post('generate')
+  @ApiOperation({ summary: 'Generate leads from recent storms' })
+  generateFromStorms(
+    @Request() req: any,
+    @Body() body: { days?: number },
+  ) {
+    return this.generatorService.generateFromRecentStorms(body?.days || 7);
+  }
+
+  @Post('generate/:stormId')
+  @ApiOperation({ summary: 'Generate leads from a specific storm' })
+  generateFromStorm(
+    @Param('stormId') stormId: string,
+    @Body() body: { radiusKm?: number },
+  ) {
+    return this.generatorService.generateFromStorm(stormId, body?.radiusKm || 30);
   }
 
   @Get(':id')

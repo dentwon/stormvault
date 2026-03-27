@@ -13,7 +13,9 @@ export class LeadsService {
     limit?: number;
     offset?: number;
   }) {
-    const { status, assigneeId, limit = 50, offset = 0 } = query;
+    const { status, assigneeId } = query;
+    const limit = parseInt(query.limit as any) || 50;
+    const offset = parseInt(query.offset as any) || 0;
 
     const where: any = { orgId };
     if (status) where.status = status;

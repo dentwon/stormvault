@@ -67,6 +67,7 @@ model Organization {
   members  OrganizationMember[]
   leads    Lead[]
   apiKeys  ApiKey[]
+  territories Territory[]
 
   @@map("organizations")
 }
@@ -148,6 +149,7 @@ model Property {
   // Relations
   propertyStorms PropertyStorm[]
   leads         Lead[]
+  enrichment    PropertyEnrichment?
   
   @@index([lat, lon])
   @@index([state, city])
@@ -285,4 +287,65 @@ enum Priority {
   MEDIUM
   HIGH
   URGENT
+}
+
+// Enriched property data from public sources
+model PropertyEnrichment {
+  id                    String   @id @default(cuid())
+  propertyId            String   @unique
+  
+  // From county assessor records
+  assessedValue         Float?
+  taxAmount             Float?
+  ownerName             String?
+  ownerMailingAddress   String?
+  sqft                  Int?
+  bedrooms              Int?
+  bathrooms             Float?
+  lotSizeAcres          Float?
+  propertyType          String?  // residential, commercial, etc.
+  
+  // From MS Building Footprints
+  buildingFootprintSqft Float?
+  
+  // From Census ACS
+  censusTract           String?
+  censusBlockGroup      String?
+  medianHouseholdIncome Float?
+  medianHomeValue       Float?
+  homeownershipRate     Float?
+  medianAge             Float?
+  
+  // From FEMA
+  femaRiskScore         Float?
+  floodZone             String?
+  disasterDeclarationActive Boolean? @default(false)
+  
+  // Computed
+  estimatedRoofSqft     Float?   // from footprint or sqft
+  estimatedJobValue     Float?   // estimated roofing job cost
+  
+  source                String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  property              Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@map("property_enrichments")
+}
+
+// Territory for service area definition
+model Territory {
+  id        String   @id @default(cuid())
+  orgId     String
+  name      String
+  zipCodes  String[]
+  geometry  Json?    // GeoJSON polygon
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  organization Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+
+  @@map("territories")
 }

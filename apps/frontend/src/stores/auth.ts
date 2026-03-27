@@ -13,8 +13,9 @@ interface User {
 interface AuthState {
   user: User | null;
   token: string | null;
+  refreshToken: string | null;
   isAuthenticated: boolean;
-  setAuth: (user: User, token: string) => void;
+  setAuth: (user: User, token: string, refreshToken?: string) => void;
   updateUser: (user: Partial<User>) => void;
   logout: () => void;
 }
@@ -24,11 +25,15 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       user: null,
       token: null,
+      refreshToken: null,
       isAuthenticated: false,
-      setAuth: (user, token) => {
-        set({ user, token, isAuthenticated: true });
+      setAuth: (user, token, refreshToken) => {
+        set({ user, token, refreshToken: refreshToken || null, isAuthenticated: true });
         if (typeof window !== 'undefined') {
           localStorage.setItem('token', token);
+          if (refreshToken) {
+            localStorage.setItem('refreshToken', refreshToken);
+          }
         }
       },
       updateUser: (userData) => {
@@ -37,15 +42,21 @@ export const useAuthStore = create<AuthState>()(
         }));
       },
       logout: () => {
-        set({ user: null, token: null, isAuthenticated: false });
+        set({ user: null, token: null, refreshToken: null, isAuthenticated: false });
         if (typeof window !== 'undefined') {
           localStorage.removeItem('token');
+          localStorage.removeItem('refreshToken');
         }
       },
     }),
     {
       name: 'auth-storage',
-      partialize: (state) => ({ user: state.user, token: state.token, isAuthenticated: state.isAuthenticated }),
+      partialize: (state) => ({
+        user: state.user,
+        token: state.token,
+        refreshToken: state.refreshToken,
+        isAuthenticated: state.isAuthenticated,
+      }),
     }
   )
 );

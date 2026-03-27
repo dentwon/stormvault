@@ -42,7 +42,7 @@ export default function LeadsPage() {
         if (filter.status) params.status = filter.status;
         
         const res = await api.get('/leads', { params });
-        let data = res.data.data || [];
+        let data = (res.data as any).data || [];
         
         if (filter.search) {
           const search = filter.search.toLowerCase();

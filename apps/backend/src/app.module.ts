@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { OrganizationsModule } from './organizations/organizations.module';
@@ -10,6 +11,7 @@ import { LeadsModule } from './leads/leads.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { HealthModule } from './health/health.module';
 import { PrismaModule } from './common/prisma.module';
+import { DataPipelineModule } from './data-pipeline/data-pipeline.module';
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { PrismaModule } from './common/prisma.module';
       envFilePath: ['.env', '.env.local'],
     }),
     ScheduleModule.forRoot(),
+    EventEmitterModule.forRoot(),
     PrismaModule,
     AuthModule,
     UsersModule,
@@ -27,6 +30,7 @@ import { PrismaModule } from './common/prisma.module';
     LeadsModule,
     AnalyticsModule,
     HealthModule,
+    DataPipelineModule,
   ],
 })
 export class AppModule {}

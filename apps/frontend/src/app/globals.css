@@ -98,3 +98,70 @@
 .bg-gradient-dark {
   background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
 }
+
+/* Drop appears small high up, grows as it falls, then creates splash */
+@keyframes rainDrop {
+  0% {
+    transform: scale(0.3) translateY(-50px);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+    transform: scale(0.5) translateY(-20px);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(0.8) translateY(0px);
+  }
+  80% {
+    opacity: 0.4;
+    transform: scale(1) translateY(20px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2) translateY(40px);
+  }
+}
+
+.animate-rain {
+  animation: rainDrop 1.5s linear infinite;
+}
+
+/* Reverse starfield rain - angled streaming away from viewer */
+@keyframes rainAway {
+  0% {
+    transform: translateY(-30px) rotate(15deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(500px) rotate(15deg);
+    opacity: 0;
+  }
+}
+
+.animate-rain-away {
+  animation: rainAway 2.5s linear infinite;
+}
+
+/* Water splash ripple - expands outward and fades, getting smaller */
+@keyframes splash {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.animate-splash {
+  animation: splash 2s ease-out infinite;
+}
+

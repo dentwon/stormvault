@@ -48,7 +48,7 @@ export default function SignupPage() {
         lastName: formData.lastName,
         organizationName: formData.organizationName || `${formData.firstName}'s Roofing`,
       });
-      setAuth(response.user, response.access_token);
+      setAuth(response.user, response.accessToken, response.refreshToken);
       router.push('/dashboard');
     } catch (err: any) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
