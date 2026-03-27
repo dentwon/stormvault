@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { PropertiesService } from './properties.service';
+import { PropertyEnrichmentService } from '../data-pipeline/property-enrichment.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { SearchPropertiesDto } from './dto/search-properties.dto';
 import { LookupPropertyDto } from './dto/lookup-property.dto';
@@ -10,7 +11,10 @@ import { LookupPropertyDto } from './dto/lookup-property.dto';
 @UseGuards(JwtAuthGuard)
 @ApiBearerAuth()
 export class PropertiesController {
-  constructor(private readonly propertiesService: PropertiesService) {}
+  constructor(
+    private readonly propertiesService: PropertiesService,
+    private readonly enrichmentService: PropertyEnrichmentService,
+  ) {}
 
   @Get()
   @ApiOperation({ summary: 'Search properties' })
@@ -34,5 +38,23 @@ export class PropertiesController {
   @ApiOperation({ summary: 'Get roof age estimate for property' })
   getRoofAge(@Param('id') id: string) {
     return this.propertiesService.getRoofAge(id);
+  }
+
+  @Post(':id/enrich')
+  @ApiOperation({ summary: 'Enrich property with Census/FEMA public data' })
+  enrichProperty(@Param('id') id: string) {
+    return this.enrichmentService.enrichProperty(id);
+  }
+
+  @Get(':id/enrichment')
+  @ApiOperation({ summary: 'Get enrichment data for a property' })
+  getEnrichment(@Param('id') id: string) {
+    return this.enrichmentService.getEnrichment(id);
+  }
+
+  @Post('enrich-all')
+  @ApiOperation({ summary: 'Batch enrich unenriched properties' })
+  enrichAll(@Body() body?: { limit?: number }) {
+    return this.enrichmentService.enrichAllProperties(body?.limit || 20);
   }
 }
